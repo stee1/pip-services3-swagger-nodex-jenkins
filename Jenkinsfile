@@ -6,14 +6,14 @@ pipeline {
             steps {
                 echo 'Pull delivery scripts'
                 // sh 'printenv'
-                // echo env.SCRIPTS_DELIVERY_PS_GIT_URL
+                echo env.SCRIPTS_DELIVERY_PS_GIT_URL
                 // echo "$SCRIPTS_DELIVERY_PS_GIT_URL"
                 // echo "${SCRIPTS_DELIVERY_PS_GIT_URL}"
                 sh 'rm -rf script-delivery-ps'
-                git env.SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps
+                git 'env.SCRIPTS_DELIVERY_PS_GIT_URL'
                 sh 'ls -al'
                 sh 'pwd'
-                sh 'git clone ${SCRIPTS_DELIVERY_PS_GIT_URL} script-delivery-ps'
+                sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
             }
         }
 
@@ -28,11 +28,11 @@ pipeline {
                 }
             }
         }
+    }
 
-        post {
-            always {
-                echo 'measure'
-            }
+    post {
+        always {
+            echo 'measure'
         }
     }
 }
