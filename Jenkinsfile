@@ -7,11 +7,12 @@ pipeline {
                 sh 'ls -al'
                 sh 'pwd'
                 echo 'Pull delivery scripts'
+                sh 'printenv'
                 echo env.SCRIPTS_DELIVERY_PS_GIT_URL
-                echo $SCRIPTS_DELIVERY_PS_GIT_URL
-                echo ${SCRIPTS_DELIVERY_PS_GIT_URL}
+                echo "$SCRIPTS_DELIVERY_PS_GIT_URL"
+                echo "${SCRIPTS_DELIVERY_PS_GIT_URL}"
                 sh 'rm -rf script-delivery-ps'
-                sh 'git clone ${SCRIPTS_DELIVERY_PS_GIT_URL} script-delivery-ps'
+                sh 'git clone env.SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
             }
         }
 
