@@ -1,0 +1,10 @@
+{
+    "name": "pip-services3-swagger-nodex",
+    "type": "module",
+    "language": "node",
+    "version": "1.0.0",
+    "build": 0,
+    "registry": "pipdevs",
+    "artifacts": [
+    ]
+}
