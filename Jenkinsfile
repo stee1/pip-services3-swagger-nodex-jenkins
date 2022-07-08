@@ -20,7 +20,7 @@ pipeline {
                     }
                 }
             }
-            catch {
+            catch (e) {
                 echo 'error on setup hadled'
             }
         }
