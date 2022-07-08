@@ -4,12 +4,14 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
+                sh 'ls -al'
+                sh 'pwd'
                 echo 'Pull delivery scripts'
                 echo env.SCRIPTS_DELIVERY_PS_GIT_URL
                 echo $SCRIPTS_DELIVERY_PS_GIT_URL
                 echo ${SCRIPTS_DELIVERY_PS_GIT_URL}
-                rm -rf script-delivery-ps
-                git clone ${SCRIPTS_DELIVERY_PS_GIT_URL} script-delivery-ps
+                sh 'rm -rf script-delivery-ps'
+                sh 'git clone ${SCRIPTS_DELIVERY_PS_GIT_URL} script-delivery-ps'
             }
         }
 
