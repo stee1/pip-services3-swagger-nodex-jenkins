@@ -4,26 +4,33 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
+                echo 'Pull delivery scripts'
+                // sh 'printenv'
+                // echo env.SCRIPTS_DELIVERY_PS_GIT_URL
+                // echo "$SCRIPTS_DELIVERY_PS_GIT_URL"
+                // echo "${SCRIPTS_DELIVERY_PS_GIT_URL}"
+                sh 'rm -rf script-delivery-ps'
+                git env.SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps
                 sh 'ls -al'
                 sh 'pwd'
-                echo 'Pull delivery scripts'
-                sh 'printenv'
-                echo env.SCRIPTS_DELIVERY_PS_GIT_URL
-                echo "$SCRIPTS_DELIVERY_PS_GIT_URL"
-                echo "${SCRIPTS_DELIVERY_PS_GIT_URL}"
-                sh 'rm -rf script-delivery-ps'
-                sh 'git clone env.SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
+                sh 'git clone ${SCRIPTS_DELIVERY_PS_GIT_URL} script-delivery-ps'
             }
         }
 
         stage('Authoring') {
             steps {
                 echo 'build'
+                exit 1
+            }
+             post {
+                always {
+                    echo 'clean'
+                }
             }
         }
 
-        stage('Measure') {
-            steps {
+        post {
+            always {
                 echo 'measure'
             }
         }
