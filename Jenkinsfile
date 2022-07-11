@@ -7,13 +7,13 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                step {
+                script {
                     echo 'Pull delivery scripts'
                     sh 'rm -rf script-delivery-ps'
                     sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
                 }
 
-                step {
+                script {
                     echo 'Execute increment script'
                     sh './script-delivery-ps/setup/increment/increment.ps1'
                 }
