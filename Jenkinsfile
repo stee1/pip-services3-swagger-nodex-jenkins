@@ -4,17 +4,20 @@ node {
     stage('Setup') {
         try {
             script {
+                sh './logs.sh'
+            }
+            script {
                 echo 'Pull delivery scripts'
                 sh 'rm -rf script-delivery-ps'
                 sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
             }
             script {
                 echo 'Execute increment script'
-                pwsh './script-delivery-ps/setup/increment/increment.ps1'
+                sh './script-delivery-ps/setup/increment/increment.ps1'
             }
             script {
                 echo 'Execute prerequisites script'
-                pwsh './script-delivery-ps/setup/prereqs/prereqs.ps1'
+                sh './script-delivery-ps/setup/prereqs/prereqs.ps1'
             }
         }
         catch (exc) {
@@ -58,7 +61,7 @@ node {
                 finally {
                     script {
                         echo 'Execute clean script'
-                        pwsh './script-delivery-ps/authoring/clean/clean.ps1'
+                        sh './script-delivery-ps/authoring/clean/clean.ps1'
                     }
                 }
             }
@@ -75,7 +78,7 @@ node {
         try {
             script {
                 echo 'Execute measure script'
-                pwsh './script-delivery-ps/measure/measure.ps1'
+                sh './script-delivery-ps/measure/measure.ps1'
             }
         }
         catch (exc) {
@@ -85,7 +88,7 @@ node {
         finally {
             if (failed == true) {
                 echo 'Error somewhere on pipeline'
-                exit 1
+                sh 'exit 1'
             }
         }
     }
