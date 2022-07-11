@@ -25,7 +25,7 @@ node {
     }
 
     stage('Authoring') {
-        if (flag == true) {
+        if (failed == true) {
             try {
                 try {
                     script {
@@ -55,11 +55,12 @@ node {
                 }
                 catch (exc) {
                     echo 'error on authoring1 handed'
+                    throw
                 }
                 finally {
                     script {
                         echo 'Execute clean script'
-                        sh './script-delivery-ps/authoring/clean/clean.ps1'
+                        // sh './script-delivery-ps/authoring/clean/clean.ps1'
                     }
                 }
             }
