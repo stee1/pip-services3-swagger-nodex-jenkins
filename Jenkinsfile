@@ -7,15 +7,21 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                script {
-                    echo 'Pull delivery scripts'
-                    sh 'rm -rf script-delivery-ps'
-                    sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
-                }
+                try {
+                    script {
+                        echo 'Pull delivery scripts'
+                        sh 'rm -rf script-delivery-ps'
+                        sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
+                    }
 
-                script {
-                    echo 'Execute increment script'
-                    sh './script-delivery-ps/setup/increment/increment.ps1'
+                    script {
+                        echo 'Execute increment script'
+                        sh './script-delivery-ps/setup/increment/increment.ps1'
+                    }
+                }
+                catch (exc) {
+                    echo 'Error on setup stage'
+                    failed = true
                 }
             }
         }
