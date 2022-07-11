@@ -55,7 +55,7 @@ node {
                 }
                 catch (exc) {
                     echo 'error on authoring1 handed'
-                    throw
+                    throw exc
                 }
                 finally {
                     script {
