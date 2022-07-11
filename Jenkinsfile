@@ -20,12 +20,11 @@ node {
         catch (exc) {
             echo 'error on setup hadled'
             failed = true
-            // throw
         }
     }
 
     stage('Authoring') {
-        if (failed == true) {
+        if (failed != true) {
             try {
                 try {
                     script {
@@ -60,14 +59,13 @@ node {
                 finally {
                     script {
                         echo 'Execute clean script'
-                        // sh './script-delivery-ps/authoring/clean/clean.ps1'
+                        sh './script-delivery-ps/authoring/clean/clean.ps1'
                     }
                 }
             }
             catch (exc) {
                 echo 'error on authoring2 hadled'
                 failed = true
-                // throw
             }
         } else {
             echo 'previous step failed'
@@ -78,13 +76,12 @@ node {
         try {
             script {
                 echo 'Execute measure script'
-                sh './script-delivery-ps/authoring/measure/measure.ps1'
+                sh './script-delivery-ps/measure/measure.ps1'
             }
         }
         catch (exc) {
             echo 'error on measure hadled'
             failed = true
-            // throw
         }
         finally {
             if (failed == true) {
