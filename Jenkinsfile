@@ -4,6 +4,8 @@ node {
     stage('Setup') {
         try {
             script {
+                sh 'pwd'
+                sh 'ls -al'
                 sh './logs.sh'
             }
             script {
