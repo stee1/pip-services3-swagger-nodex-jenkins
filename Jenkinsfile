@@ -18,7 +18,7 @@ node {
             }
         }
         catch (exc) {
-            echo 'error on setup hadled'
+            echo 'Error on setup stage'
             failed = true
         }
     }
@@ -53,22 +53,21 @@ node {
                     }
                 }
                 catch (exc) {
-                    echo 'error on authoring1 handed'
                     throw exc
                 }
                 finally {
                     script {
                         echo 'Execute clean script'
-                        sh './script-delivery-ps/authoring/clean/clean.ps1'
+                        pwsh './script-delivery-ps/authoring/clean/clean.ps1'
                     }
                 }
             }
             catch (exc) {
-                echo 'error on authoring2 hadled'
+                echo 'Error on authoring stage'
                 failed = true
             }
         } else {
-            echo 'previous step failed'
+            echo 'Authoring stage skipped because previous stage failed.'
         }
     }
 
@@ -76,18 +75,17 @@ node {
         try {
             script {
                 echo 'Execute measure script'
-                sh './script-delivery-ps/measure/measure.ps1'
+                pwsh './script-delivery-ps/measure/measure.ps1'
             }
         }
         catch (exc) {
-            echo 'error on measure hadled'
+            echo 'Error on measure'
             failed = true
         }
         finally {
             if (failed == true) {
                 echo 'Error somewhere on pipeline'
-            } else {
-                echo 'Pipeline successfull'
+                exit 1
             }
         }
     }
