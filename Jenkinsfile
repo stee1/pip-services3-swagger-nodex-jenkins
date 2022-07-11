@@ -1,7 +1,9 @@
 node {
-    stage('Example') {
+    stage('Setup') {
         try {
-            sh 'exit 1'
+            script{
+                sh 'exit 1'
+            }
         }
         catch (exc) {
             echo 'Something failed, I should sound the klaxons!'
