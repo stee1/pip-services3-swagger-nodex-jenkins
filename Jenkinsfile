@@ -1,4 +1,6 @@
-node {
+def failed = false;
+
+pipeline {
     stage('Setup') {
         try {
             script {
@@ -17,11 +19,13 @@ node {
         }
         catch (exc) {
             echo 'error on setup hadled'
-            failed = true
+            ${failed} = true
             // throw
         }
     }
     stage('Authoring') {
+        // when { expression { flag == true } }
+
         try {
             try {
                 script {
@@ -61,8 +65,28 @@ node {
         }
         catch (exc) {
             echo 'error on authoring2 hadled'
-            failed = true
+            ${failed} = true
             // throw
+        }
+    }
+    stage('Measure') {
+        try {
+            script {
+                echo 'Execute release script'
+                sh './script-delivery-ps/authoring/release/release.ps1'
+            }
+        }
+        catch (exc) {
+            echo 'error on setup hadled'
+            ${failed} = true
+            // throw
+        }
+        finally {
+            if (${failed} == true) {
+                echo 'Error somewhere on pipeline'
+            } else {
+                echo 'Pipeline successfull'
+            }
         }
     }
 }
