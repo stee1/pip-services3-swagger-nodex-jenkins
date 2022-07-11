@@ -23,9 +23,9 @@ node {
             // throw
         }
     }
-    
+
     stage('Authoring') {
-        // when { expression { flag == true } }
+        when { expression { flag == true } }
 
         try {
             try {
@@ -74,12 +74,12 @@ node {
     stage('Measure') {
         try {
             script {
-                echo 'Execute release script'
-                sh './script-delivery-ps/authoring/release/release.ps1'
+                echo 'Execute measure script'
+                sh './script-delivery-ps/authoring/measure/measure.ps1'
             }
         }
         catch (exc) {
-            echo 'error on setup hadled'
+            echo 'error on measure hadled'
             failed = true
             // throw
         }
