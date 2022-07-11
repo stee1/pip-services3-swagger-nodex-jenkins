@@ -19,7 +19,7 @@ pipeline {
         }
         catch (exc) {
             echo 'error on setup hadled'
-            ${failed} = true
+            failed = true
             // throw
         }
     }
@@ -65,7 +65,7 @@ pipeline {
         }
         catch (exc) {
             echo 'error on authoring2 hadled'
-            ${failed} = true
+            failed = true
             // throw
         }
     }
@@ -78,11 +78,11 @@ pipeline {
         }
         catch (exc) {
             echo 'error on setup hadled'
-            ${failed} = true
+            failed = true
             // throw
         }
         finally {
-            if (${failed} == true) {
+            if (failed == true) {
                 echo 'Error somewhere on pipeline'
             } else {
                 echo 'Pipeline successfull'
