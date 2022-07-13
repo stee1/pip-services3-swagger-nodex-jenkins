@@ -9,8 +9,8 @@ node {
             }
             script {
                 echo 'Pull delivery scripts'
-                // sh 'rm -rf script-delivery-ps'
-                // sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
+                sh 'rm -rf script-delivery-ps'
+                sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
             }
             script {
                 echo 'Execute increment script'
@@ -78,10 +78,10 @@ node {
     stage('Measure') {
         try {
             script {
-                echo 'Execute measure script'
+                echo 'Execute measure script. DISABLED'
                 // sh "GIT_ORG=$(echo $GIT_URL | awk -F '/' '{print $4}')"
                 // sh "GIT_REPO_NAME=$(echo $GIT_URL | awk -F '/' '{print $5}' | awk -F '.' '{print $1}')"
-                sh './script-delivery-ps/measure/measure.ps1 $GIT_ORG $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN'
+                // sh './script-delivery-ps/measure/measure.ps1 $GIT_ORG $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN'
             }
         }
         catch (exc) {
