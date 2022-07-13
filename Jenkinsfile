@@ -31,22 +31,22 @@ node {
         if (failed != true) {
             try {
                 try {
-                    script {
-                        echo 'Execute build script'
-                        sh './script-delivery-ps/authoring/build/build.ps1'
-                    }
-                    script {
-                        echo 'Execute test script'
-                        sh './script-delivery-ps/authoring/test/test.ps1'
-                    }
-                    script {
-                        echo 'Execute package script'
-                        sh './script-delivery-ps/authoring/package/package.ps1'
-                    }
-                    script {
-                        echo 'Execute publish script'
-                        sh './script-delivery-ps/authoring/publish/publish.ps1'
-                    }
+                    // script {
+                    //     echo 'Execute build script'
+                    //     sh './script-delivery-ps/authoring/build/build.ps1'
+                    // }
+                    // script {
+                    //     echo 'Execute test script'
+                    //     sh './script-delivery-ps/authoring/test/test.ps1'
+                    // }
+                    // script {
+                    //     echo 'Execute package script'
+                    //     sh './script-delivery-ps/authoring/package/package.ps1'
+                    // }
+                    // script {
+                    //     echo 'Execute publish script'
+                    //     sh './script-delivery-ps/authoring/publish/publish.ps1'
+                    // }
                     script {
                         echo 'Execute tag script'
                         sh './script-delivery-ps/authoring/tag/tag.ps1'
@@ -79,7 +79,9 @@ node {
         try {
             script {
                 echo 'Execute measure script'
-                sh './script-delivery-ps/measure/measure.ps1'
+                sh "GIT_ORG=$(echo $GIT_URL | awk -F '/' '{print $4}')"
+                sh "GIT_REPO_NAME=$(echo $GIT_URL | awk -F '/' '{print $5}' | awk -F '.' '{print $1}')"
+                sh './script-delivery-ps/measure/measure.ps1 $GIT_ORG $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN'
             }
         }
         catch (exc) {
