@@ -33,11 +33,11 @@ node {
                 try {
                     script {
                         echo 'Execute build script'
-                        // sh './script-delivery-ps/authoring/build/build.ps1'
+                        sh './script-delivery-ps/authoring/build/build.ps1'
                     }
                     script {
                         echo 'Execute test script'
-                        // sh './script-delivery-ps/authoring/test/test.ps1'
+                        sh './script-delivery-ps/authoring/test/test.ps1'
                     }
                     script {
                         echo 'Execute package script'
