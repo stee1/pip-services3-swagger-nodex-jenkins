@@ -79,6 +79,9 @@ node {
         try {
             script {
                 echo 'Execute measure script. DISABLED'
+                sh 'echo $JOB_NAME'
+                sh 'echo $JOB_URL'
+                sh 'echo $GIT_URL'
                 // sh "GIT_ORG=$(echo $GIT_URL | awk -F '/' '{print $4}')"
                 // sh "GIT_REPO_NAME=$(echo $GIT_URL | awk -F '/' '{print $5}' | awk -F '.' '{print $1}')"
                 // sh './script-delivery-ps/measure/measure.ps1 $GIT_ORG $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN'
