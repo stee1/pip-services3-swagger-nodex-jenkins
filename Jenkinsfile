@@ -82,7 +82,12 @@ node {
                 // sh 'GIT_ORG=$(echo $JOB_NAME | awk -F "/" "{print $1}")'
                 // sh 'echo $GIT_ORG'
                 // sh 'GIT_REPO_NAME=$(echo $JOB_NAME | awk -F "/" "{print $2}")'
-                sh './script-delivery-ps/measure/measure.ps1 $(echo $JOB_NAME | awk -F "/" "{print $1}") $(echo $JOB_NAME | awk -F "/" "{print $2}") $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN @{jenkinsJobUrl="$JOB_URL"}'
+                sh '''
+                    GIT_ORG=$(echo $JOB_NAME | awk -F "/" "{print $1}")
+                    echo $GIT_ORG
+                    GIT_REPO_NAME=$(echo $JOB_NAME | awk -F "/" "{print $2}")
+                    ./script-delivery-ps/measure/measure.ps1 $GIT_ORG $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN @{jenkinsJobUrl="$JOB_URL"}
+                '''
             }
         }
         catch (exc) {
