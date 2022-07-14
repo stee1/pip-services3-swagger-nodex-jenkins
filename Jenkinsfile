@@ -4,13 +4,13 @@ node {
     stage('Setup') {
         try {
             script {
-                echo 'Pull code from source repository'
-                checkout scm
+                // echo 'Pull code from source repository'
+                // checkout scm
             }
             script {
                 echo 'Pull delivery scripts'
-                sh 'rm -rf script-delivery-ps'
-                sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
+                // sh 'rm -rf script-delivery-ps'
+                // sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
             }
             script {
                 echo 'Execute increment script'
@@ -33,11 +33,11 @@ node {
                 try {
                     script {
                         echo 'Execute build script'
-                        sh './script-delivery-ps/authoring/build/build.ps1'
+                        // sh './script-delivery-ps/authoring/build/build.ps1'
                     }
                     script {
                         echo 'Execute test script'
-                        sh './script-delivery-ps/authoring/test/test.ps1'
+                        // sh './script-delivery-ps/authoring/test/test.ps1'
                     }
                     script {
                         echo 'Execute package script'
@@ -49,7 +49,7 @@ node {
                     }
                     script {
                         echo 'Execute tag script'
-                        sh './script-delivery-ps/authoring/tag/tag.ps1'
+                        // sh './script-delivery-ps/authoring/tag/tag.ps1'
                     }
                     script {
                         echo 'Execute release script'
@@ -62,7 +62,7 @@ node {
                 finally {
                     script {
                         echo 'Execute clean script'
-                        sh './script-delivery-ps/authoring/clean/clean.ps1'
+                        // sh './script-delivery-ps/authoring/clean/clean.ps1'
                     }
                 }
             }
@@ -80,6 +80,7 @@ node {
             script {
                 echo 'Execute measure script. DISABLED'
                 sh 'GIT_ORG=$(echo $JOB_NAME | awk -F "/" "{print $1}")'
+                sh 'echo $GIT_ORG'
                 sh 'GIT_REPO_NAME=$(echo $JOB_NAME | awk -F "/" "{print $2}")'
                 sh './script-delivery-ps/measure/measure.ps1 $GIT_ORG $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN @{jenkinsJobUrl="$JOB_URL"}'
             }
