@@ -9,8 +9,8 @@ node {
             }
             script {
                 echo 'Pull delivery scripts'
-                sh 'rm -rf script-delivery-ps'
-                sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
+                // sh 'rm -rf script-delivery-ps'
+                // sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
             }
             script {
                 echo 'Execute increment script'
@@ -50,10 +50,6 @@ node {
                     script {
                         echo 'Execute tag script'
                         // sh './script-delivery-ps/authoring/tag/tag.ps1'
-                    }
-                    script {
-                        echo 'Execute release script'
-                        sh './script-delivery-ps/authoring/release/release.ps1'
                     }
                 }
                 catch (exc) {
@@ -166,15 +162,12 @@ node {
     stage('Measure') {
         try {
             script {
-                echo 'Execute measure script. DISABLED'
-                // sh 'GIT_ORG=$(echo $JOB_NAME | awk -F "/" "{print $1}")'
-                // sh 'echo $GIT_ORG'
-                // sh 'GIT_REPO_NAME=$(echo $JOB_NAME | awk -F "/" "{print $2}")'
+                echo 'Execute measure script'
+                echo '$GIT_COMMIT'
                 sh '''
-                    GIT_ORG=$($JOB_NAME | awk -F '/' '{print $1}')
-                    echo $GIT_ORG
+                    GIT_ORG=$(echo $JOB_NAME | awk -F '/' '{print $1}')
                     GIT_REPO_NAME=$(echo $JOB_NAME | awk -F '/' '{print $2}')
-                    ./script-delivery-ps/measure/measure.ps1 '$GIT_ORG' $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN $JOB_URL}
+                    ./script-delivery-ps/measure/measure.ps1 $GIT_ORG $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN $JOB_URL
                 '''
             }
         }
