@@ -72,90 +72,106 @@ node {
     }
 
     stage('Integration') {
-        try {
-            script {
-                echo 'Execute prepare script'
-                sh './script-delivery-ps/integration/prepare/prepare.ps1'
+        if (failed != true) {
+            try {
+                script {
+                    echo 'Execute prepare script'
+                    sh './script-delivery-ps/integration/prepare/prepare.ps1'
+                }
+                script {
+                    echo 'Execute deploy script'
+                    sh './script-delivery-ps/integration/deploy/deploy.ps1'
+                }
+                script {
+                    echo 'Execute ci_test script'
+                    sh './script-delivery-ps/integration/ci_test/ci_test.ps1'
+                }
+                script {
+                    echo 'Execute rollback script'
+                    sh './script-delivery-ps/integration/rollback/rollback.ps1'
+                }
             }
-            script {
-                echo 'Execute deploy script'
-                sh './script-delivery-ps/integration/deploy/deploy.ps1'
+            catch (exc) {
+                echo 'Error on integration stage'
+                failed = true
             }
-            script {
-                echo 'Execute ci_test script'
-                sh './script-delivery-ps/integration/ci_test/ci_test.ps1'
-            }
-            script {
-                echo 'Execute rollback script'
-                sh './script-delivery-ps/integration/rollback/rollback.ps1'
-            }
-        }
-        catch (exc) {
-            echo 'Error on integration stage'
-            failed = true
+        } else {
+            echo 'Integration stage skipped because previous stage failed.'
         }
     }
 
     stage('Assembling') {
-        try {
-            script {
-                echo 'Execute baseline script'
-                sh './script-delivery-ps/assembling/baseline/baseline.ps1'
+        if (failed != true) {
+            try {
+                script {
+                    echo 'Execute baseline script'
+                    sh './script-delivery-ps/assembling/baseline/baseline.ps1'
+                }
+                script {
+                    echo 'Execute package_assembly script'
+                    sh './script-delivery-ps/assembling/package_assembly/package_assembly.ps1'
+                }
+                script {
+                    echo 'Execute publish_assembly script'
+                    sh './script-delivery-ps/assembling/publish_assembly/publish_assembly.ps1'
+                }
             }
-            script {
-                echo 'Execute package_assembly script'
-                sh './script-delivery-ps/assembling/package_assembly/package_assembly.ps1'
+            catch (exc) {
+                echo 'Error on assembling stage'
+                failed = true
             }
-            script {
-                echo 'Execute publish_assembly script'
-                sh './script-delivery-ps/assembling/publish_assembly/publish_assembly.ps1'
-            }
-        }
-        catch (exc) {
-            echo 'Error on assembling stage'
-            failed = true
+        } else {
+            echo 'Assembling stage skipped because previous stage failed.'
         }
     }
 
     stage('Acceptance') {
-        try {
-            script {
-                echo 'Execute functional script'
-                sh './script-delivery-ps/acceptance/functional/functional.ps1'
+        if (failed != true) {
+            try {
+                script {
+                    echo 'Execute functional script'
+                    sh './script-delivery-ps/acceptance/functional/functional.ps1'
+                }
+                script {
+                    echo 'Execute benchmark script'
+                    sh './script-delivery-ps/acceptance/benchmark/benchmark.ps1'
+                }
+                script {
+                    echo 'Execute certify script'
+                    sh './script-delivery-ps/acceptance/certify/certify.ps1'
+                }
             }
-            script {
-                echo 'Execute benchmark script'
-                sh './script-delivery-ps/acceptance/benchmark/benchmark.ps1'
+            catch (exc) {
+                echo 'Error on acceptance stage'
+                failed = true
             }
-            script {
-                echo 'Execute certify script'
-                sh './script-delivery-ps/acceptance/certify/certify.ps1'
-            }
-        }
-        catch (exc) {
-            echo 'Error on acceptance stage'
-            failed = true
+        } else {
+            echo 'Acceptance stage skipped because previous stage failed.'
         }
     }
 
     stage('Release') {
-        try {
-            script {
-                echo 'Execute document script'
-                sh './script-delivery-ps/release/document/document.ps1'
+        if (failed != true) {
+            try {
+                script {
+                    echo 'Execute document script'
+                    sh './script-delivery-ps/release/document/document.ps1'
+                }
+                script {
+                    echo 'Execute release script'
+                    sh './script-delivery-ps/release/release/release.ps1'
+                }
+                script {
+                    echo 'Execute notify script'
+                    sh './script-delivery-ps/release/notify/notify.ps1'
+                }
             }
-            script {
-                echo 'Execute release script'
-                sh './script-delivery-ps/release/release/release.ps1'
+            catch (exc) {
+                echo 'Error on release stage'
+                failed = true
             }
-            script {
-                echo 'Execute notify script'
-                sh './script-delivery-ps/release/notify/notify.ps1'
-            }
-        }
-        catch (exc) {
-            echo 'Error on release stage'
-            failed = true
+        } else {
+            echo 'Release stage skipped because previous stage failed.'
         }
     }
 
@@ -164,7 +180,6 @@ node {
             script {
                 echo 'Execute measure script'
                 sh '''
-                    echo $GIT_COMMIT
                     GIT_ORG=$(echo $JOB_NAME | awk -F '/' '{print $1}')
                     GIT_REPO_NAME=$(echo $JOB_NAME | awk -F '/' '{print $2}')
                     ./script-delivery-ps/measure/measure.ps1 \"$GIT_ORG\" \"$GIT_REPO_NAME\" \"$AWS_ACCESS_KEY_ID\" \"$AWS_SECRET_ACCESS_KEY\" \"$AWS_S3_BUCKET\" \"$GIT_TOKEN\" \"$JOB_URL\"
