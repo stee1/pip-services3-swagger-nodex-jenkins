@@ -163,7 +163,7 @@ node {
         try {
             script {
                 echo 'Execute measure script'
-                echo '$GIT_COMMIT'
+                echo "${GIT_COMMIT}"
                 sh '''
                     GIT_ORG=$(echo $JOB_NAME | awk -F '/' '{print $1}')
                     GIT_REPO_NAME=$(echo $JOB_NAME | awk -F '/' '{print $2}')
