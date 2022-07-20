@@ -167,7 +167,7 @@ node {
                 sh '''
                     GIT_ORG=$(echo $JOB_NAME | awk -F '/' '{print $1}')
                     GIT_REPO_NAME=$(echo $JOB_NAME | awk -F '/' '{print $2}')
-                    ./script-delivery-ps/measure/measure.ps1 $GIT_ORG $GIT_REPO_NAME $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_S3_BUCKET $GIT_TOKEN $JOB_URL
+                    ./script-delivery-ps/measure/measure.ps1 \"$GIT_ORG\" \"$GIT_REPO_NAME\" \"$AWS_ACCESS_KEY_ID\" \"$AWS_SECRET_ACCESS_KEY\" \"$AWS_S3_BUCKET\" \"$GIT_TOKEN\" \"$JOB_URL\"
                 '''
             }
         }
