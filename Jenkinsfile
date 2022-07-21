@@ -14,6 +14,7 @@ node {
             }
             script {
                 echo 'Execute increment script'
+                sh 'python3 -m pip install -r ./script-delivery-py/requirements.txt'
                 sh './script-delivery-py/setup/increment/increment.py'
             }
             script {
