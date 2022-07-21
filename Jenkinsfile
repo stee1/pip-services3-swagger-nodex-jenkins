@@ -9,16 +9,16 @@ node {
             }
             script {
                 echo 'Pull delivery scripts'
-                sh 'rm -rf script-delivery-ps'
-                sh 'git clone $SCRIPTS_DELIVERY_PS_GIT_URL script-delivery-ps'
+                sh 'rm -rf script-delivery-py'
+                sh 'git clone $SCRIPTS_DELIVERY_PY_GIT_URL script-delivery-py'
             }
             script {
                 echo 'Execute increment script'
-                sh './script-delivery-ps/setup/increment/increment.ps1'
+                sh './script-delivery-py/setup/increment/increment.py'
             }
             script {
                 echo 'Execute prerequisites script'
-                sh './script-delivery-ps/setup/prereqs/prereqs.ps1'
+                sh './script-delivery-py/setup/prereqs/prereqs.py'
             }
         }
         catch (exc) {
@@ -33,23 +33,23 @@ node {
                 try {
                     script {
                         echo 'Execute build script'
-                        sh './script-delivery-ps/authoring/build/build.ps1'
+                        sh './script-delivery-py/authoring/build/build.py'
                     }
                     script {
                         echo 'Execute test script'
-                        sh './script-delivery-ps/authoring/test/test.ps1'
+                        sh './script-delivery-py/authoring/test/test.py'
                     }
                     script {
                         echo 'Execute package script'
-                        sh './script-delivery-ps/authoring/package/package.ps1'
+                        sh './script-delivery-py/authoring/package/package.py'
                     }
                     script {
                         echo 'Execute publish script'
-                        sh './script-delivery-ps/authoring/publish/publish.ps1'
+                        sh './script-delivery-py/authoring/publish/publish.py'
                     }
                     script {
                         echo 'Execute tag script'
-                        sh './script-delivery-ps/authoring/tag/tag.ps1'
+                        sh './script-delivery-py/authoring/tag/tag.py'
                     }
                 }
                 catch (exc) {
@@ -58,7 +58,7 @@ node {
                 finally {
                     script {
                         echo 'Execute clean script'
-                        sh './script-delivery-ps/authoring/clean/clean.ps1'
+                        sh './script-delivery-py/authoring/clean/clean.py'
                     }
                 }
             }
@@ -76,19 +76,19 @@ node {
             try {
                 script {
                     echo 'Execute prepare script'
-                    sh './script-delivery-ps/integration/prepare/prepare.ps1'
+                    sh './script-delivery-py/integration/prepare/prepare.py'
                 }
                 script {
                     echo 'Execute deploy script'
-                    sh './script-delivery-ps/integration/deploy/deploy.ps1'
+                    sh './script-delivery-py/integration/deploy/deploy.py'
                 }
                 script {
                     echo 'Execute ci_test script'
-                    sh './script-delivery-ps/integration/ci_test/ci_test.ps1'
+                    sh './script-delivery-py/integration/ci_test/ci_test.py'
                 }
                 script {
                     echo 'Execute rollback script'
-                    sh './script-delivery-ps/integration/rollback/rollback.ps1'
+                    sh './script-delivery-py/integration/rollback/rollback.py'
                 }
             }
             catch (exc) {
@@ -105,15 +105,15 @@ node {
             try {
                 script {
                     echo 'Execute baseline script'
-                    sh './script-delivery-ps/assembling/baseline/baseline.ps1'
+                    sh './script-delivery-py/assembling/baseline/baseline.py'
                 }
                 script {
                     echo 'Execute package_assembly script'
-                    sh './script-delivery-ps/assembling/package_assembly/package_assembly.ps1'
+                    sh './script-delivery-py/assembling/package_assembly/package_assembly.py'
                 }
                 script {
                     echo 'Execute publish_assembly script'
-                    sh './script-delivery-ps/assembling/publish_assembly/publish_assembly.ps1'
+                    sh './script-delivery-py/assembling/publish_assembly/publish_assembly.py'
                 }
             }
             catch (exc) {
@@ -130,15 +130,15 @@ node {
             try {
                 script {
                     echo 'Execute functional script'
-                    sh './script-delivery-ps/acceptance/functional/functional.ps1'
+                    sh './script-delivery-py/acceptance/functional/functional.py'
                 }
                 script {
                     echo 'Execute benchmark script'
-                    sh './script-delivery-ps/acceptance/benchmark/benchmark.ps1'
+                    sh './script-delivery-py/acceptance/benchmark/benchmark.py'
                 }
                 script {
                     echo 'Execute certify script'
-                    sh './script-delivery-ps/acceptance/certify/certify.ps1'
+                    sh './script-delivery-py/acceptance/certify/certify.py'
                 }
             }
             catch (exc) {
@@ -155,15 +155,15 @@ node {
             try {
                 script {
                     echo 'Execute document script'
-                    sh './script-delivery-ps/release/document/document.ps1'
+                    sh './script-delivery-py/release/document/document.py'
                 }
                 script {
                     echo 'Execute release script'
-                    sh './script-delivery-ps/release/release/release.ps1'
+                    sh './script-delivery-py/release/release/release.py'
                 }
                 script {
                     echo 'Execute notify script'
-                    sh './script-delivery-ps/release/notify/notify.ps1'
+                    sh './script-delivery-py/release/notify/notify.py'
                 }
             }
             catch (exc) {
@@ -182,7 +182,7 @@ node {
                 sh '''
                     GIT_ORG=$(echo $JOB_NAME | awk -F '/' '{print $1}')
                     GIT_REPO_NAME=$(echo $JOB_NAME | awk -F '/' '{print $2}')
-                    ./script-delivery-ps/measure/measure.ps1 \"$GIT_ORG\" \"$GIT_REPO_NAME\" \"$AWS_ACCESS_KEY_ID\" \"$AWS_SECRET_ACCESS_KEY\" \"$AWS_S3_BUCKET\" \"$GIT_TOKEN\" \"$JOB_URL\"
+                    ./script-delivery-py/measure/measure.py \"$GIT_ORG\" \"$GIT_REPO_NAME\" \"$AWS_ACCESS_KEY_ID\" \"$AWS_SECRET_ACCESS_KEY\" \"$AWS_S3_BUCKET\" \"$GIT_TOKEN\" \"$JOB_URL\"
                 '''
             }
         }
